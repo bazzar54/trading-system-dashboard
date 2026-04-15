@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading System Architecture</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0d1117;
+    color: #e6edf3;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    padding: 32px 24px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    color: #f0f6fc;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #7d8590;
+    margin-bottom: 40px;
+  }
+
+  /* LAYERS */
+  .layer {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+    position: relative;
+  }
+  .layer-label {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #7d8590;
+    margin-bottom: 10px;
+  }
+  .layer-block {
+    margin-bottom: 8px;
+  }
+
+  /* ARROWS between layers */
+  .arrow-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 36px;
+    gap: 0;
+    position: relative;
+  }
+  .arrow-down {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #30363d;
+    font-size: 20px;
+    line-height: 1;
+  }
+  .arrow-line {
+    width: 2px;
+    height: 20px;
+    background: linear-gradient(to bottom, #238636, #30363d);
+    border-radius: 1px;
+  }
+  .arrow-head {
+    color: #238636;
+    font-size: 14px;
+    margin-top: -2px;
+  }
+
+  /* BOXES */
+  .box {
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    text-align: center;
+    position: relative;
+    border: 1px solid;
+    cursor: default;
+    transition: transform 0.15s, box-shadow 0.15s;
+    min-width: 130px;
+  }
+  .box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+  }
+  .box .tag {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    opacity: 0.7;
+  }
+  .box .name {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .box .detail {
+    display: block;
+    font-size: 10px;
+    margin-top: 4px;
+    opacity: 0.65;
+    font-weight: 400;
+  }
+
+  /* Box themes */
+  .box-external {
+    background: #161b22;
+    border-color: #1f6feb;
+    color: #79c0ff;
+  }
+  .box-external .tag { color: #388bfd; }
+
+  .box-brain {
+    background: #1a1230;
+    border-color: #8b5cf6;
+    color: #c4b5fd;
+  }
+  .box-brain .tag { color: #a78bfa; }
+
+  .box-core {
+    background: #0d2230;
+    border-color: #1f6feb;
+    color: #58a6ff;
+    min-width: 220px;
+    padding: 16px 24px;
+  }
+  .box-core .tag { color: #388bfd; }
+  .box-core .name { font-size: 15px; }
+
+  .box-directive {
+    background: #1a2430;
+    border-color: #e3b341;
+    color: #e3b341;
+  }
+  .box-directive .tag { color: #d29922; }
+
+  .box-bot {
+    background: #0f1e14;
+    border-color: #238636;
+    color: #7ee787;
+    min-width: 120px;
+  }
+  .box-bot .tag { color: #3fb950; }
+
+  .box-bot-dead {
+    background: #1a1212;
+    border-color: #6e4040;
+    color: #f85149;
+    min-width: 120px;
+    opacity: 0.8;
+  }
+  .box-bot-dead .tag { color: #da3633; }
+
+  .box-telegram {
+    background: #0f1e2a;
+    border-color: #0369a1;
+    color: #38bdf8;
+    min-width: 280px;
+  }
+  .box-telegram .tag { color: #0ea5e9; }
+
+  .box-barry {
+    background: #1a1400;
+    border-color: #d29922;
+    color: #e3b341;
+    min-width: 200px;
+    padding: 14px 28px;
+  }
+
+  /* Status badges */
+  .badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 5px;
+    text-transform: uppercase;
+  }
+  .badge-green { background: #1a4228; color: #7ee787; }
+  .badge-red { background: #3d1515; color: #f85149; }
+  .badge-yellow { background: #2d2000; color: #e3b341; }
+  .badge-grey { background: #21262d; color: #7d8590; }
+  .badge-purple { background: #1e1133; color: #c4b5fd; }
+
+  /* Wide rows */
+  .brain-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .box-brain-sm {
+    background: #1a1230;
+    border-color: #6d28d9;
+    color: #c4b5fd;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid;
+    min-width: 110px;
+    text-align: center;
+    cursor: default;
+    transition: transform 0.15s;
+  }
+  .box-brain-sm:hover { transform: translateY(-2px); }
+  .box-brain-sm .sm-tag {
+    display: block;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #7c3aed;
+    margin-bottom: 3px;
+  }
+  .box-brain-sm .sm-name {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .box-brain-sm .sm-file {
+    display: block;
+    font-size: 9px;
+    color: #7d8590;
+    margin-top: 2px;
+    font-family: monospace;
+  }
+
+  /* Divider */
+  .section-gap { height: 12px; }
+
+  /* Ack arrow */
+  .ack-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 6px 0;
+    gap: 6px;
+    font-size: 10px;
+    color: #7d8590;
+  }
+  .ack-line {
+    width: 60px;
+    height: 1px;
+    background: repeating-linear-gradient(90deg, #30363d 0, #30363d 4px, transparent 4px, transparent 8px);
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid #21262d;
+    font-size: 11px;
+    color: #7d8590;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    border: 1px solid;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #30363d;
+    margin: 8px 0 16px;
+    position: relative;
+  }
+  .section-title::before, .section-title::after {
+    content: '';
+    display: inline-block;
+    width: 60px;
+    height: 1px;
+    background: #21262d;
+    vertical-align: middle;
+    margin: 0 12px;
+  }
+
+  .flow-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Multi-arrow spread */
+  .spread-arrows {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: flex-start;
+    height: 44px;
+    position: relative;
+  }
+  .spread-arrows::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 70%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #238636 20%, #238636 80%, transparent);
+    top: 18px;
+  }
+  .spread-arrow-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 18px;
+  }
+  .spread-arrow-item .a-line {
+    width: 2px;
+    height: 14px;
+    background: #238636;
+  }
+  .spread-arrow-item .a-head {
+    color: #238636;
+    font-size: 12px;
+    margin-top: -2px;
+  }
+</style>
+</head>
+<body>
+<div class="flow-wrap">
+
+  <h1>🤖 Autonomous Trading System</h1>
+  <p class="subtitle">Full architecture — how the brain connects to the bots</p>
+
+  <!-- LAYER 1: EXTERNAL DATA -->
+  <div class="section-title">Live Market Data</div>
+  <div class="layer">
+    <div class="box box-external">
+      <span class="tag">Free API</span>
+      <span class="name">Binance</span>
+      <span class="detail">OHLCV · Ticker · Volume</span>
+    </div>
+    <div class="box box-external">
+      <span class="tag">Free API</span>
+      <span class="name">Fear &amp; Greed Index</span>
+      <span class="detail">alternative.me · 0–100</span>
+    </div>
+    <div class="box box-external">
+      <span class="tag">Free API</span>
+      <span class="name">Binance 24h Ticker</span>
+      <span class="detail">Price change · High/Low</span>
+    </div>
+  </div>
+
+  <!-- ARROW DOWN -->
+  <div class="arrow-row">
+    <div class="arrow-down">
+      <div class="arrow-line"></div>
+      <div class="arrow-head">▼</div>
+    </div>
+  </div>
+
+  <!-- LAYER 2: TRADE ANALYSER BRAIN -->
+  <div class="section-title">Trade Analyser Brain</div>
+
+  <div style="display:flex;justify-content:center;margin-bottom:10px;">
+    <div class="box box-core">
+      <span class="tag">Orchestrator · pm2: trade-analyser</span>
+      <span class="name">Trade Analyser Bot</span>
+      <span class="detail">Runs every 30 min · Emergency checks every 5 min</span>
+      <span class="badge badge-green">● ONLINE</span>
+    </div>
+  </div>
+
+  <div class="brain-row">
+    <div class="box-brain-sm">
+      <span class="sm-tag">Phase 1</span>
+      <span class="sm-name">Market Intel</span>
+      <span class="sm-file">market_intel.py</span>
+    </div>
+    <div class="box-brain-sm">
+      <span class="sm-tag">Phase 2</span>
+      <span class="sm-name">Strategy Fitness</span>
+      <span class="sm-file">strategy_fitness.py</span>
+    </div>
+    <div class="box-brain-sm">
+      <span class="sm-tag">Phase 3</span>
+      <span class="sm-name">Trade Quality</span>
+      <span class="sm-file">trade_analyser_deep.py</span>
+    </div>
+    <div class="box-brain-sm">
+      <span class="sm-tag">Phase 4</span>
+      <span class="sm-name">Quant Sizer</span>
+      <span class="sm-file">quant_sizer.py</span>
+    </div>
+    <div class="box-brain-sm">
+      <span class="sm-tag">Phase 5</span>
+      <span class="sm-name">Decision Engine</span>
+      <span class="sm-file">decision_engine.py</span>
+    </div>
+  </div>
+
+  <!-- ARROW DOWN TO DIRECTIVES -->
+  <div class="arrow-row">
+    <div class="arrow-down">
+      <div class="arrow-line"></div>
+      <div class="arrow-head">▼</div>
+    </div>
+  </div>
+
+  <!-- LAYER 3: DIRECTIVES FILE -->
+  <div class="section-title">Directive Layer</div>
+  <div class="layer" style="margin-bottom:4px;">
+    <div class="box box-directive">
+      <span class="tag">Shared file · /root/data/</span>
+      <span class="name">manager_directives.json</span>
+      <span class="detail">pause · resume · set_trade_size · tighten/loosen filter</span>
+    </div>
+    <div class="box box-directive" style="border-color:#4a3728;color:#c9a26a;">
+      <span class="tag">Audit trail · /root/data/</span>
+      <span class="name">decision_log.json</span>
+      <span class="detail">Every decision + reason logged</span>
+    </div>
+    <div class="box box-directive" style="border-color:#1f6feb;color:#79c0ff;">
+      <span class="tag">Market cache · /root/data/</span>
+      <span class="name">market_intel.json</span>
+      <span class="detail">Refreshed every 15 min</span>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:center;margin:4px 0 2px;">
+    <div style="display:flex;align-items:center;gap:8px;font-size:10px;color:#7d8590;">
+      <div style="width:40px;height:1px;background:repeating-linear-gradient(90deg,#e3b341 0,#e3b341 4px,transparent 4px,transparent 8px);"></div>
+      <span>directive_reader.py — imported by all bots</span>
+      <div style="width:40px;height:1px;background:repeating-linear-gradient(90deg,#e3b341 0,#e3b341 4px,transparent 4px,transparent 8px);"></div>
+    </div>
+  </div>
+
+  <!-- SPREAD ARROWS TO BOTS -->
+  <div class="spread-arrows">
+    <div class="spread-arrow-item"><div class="a-line"></div><div class="a-head">▼</div></div>
+    <div class="spread-arrow-item"><div class="a-line"></div><div class="a-head">▼</div></div>
+    <div class="spread-arrow-item"><div class="a-line"></div><div class="a-head">▼</div></div>
+    <div class="spread-arrow-item"><div class="a-line"></div><div class="a-head">▼</div></div>
+    <div class="spread-arrow-item"><div class="a-line"></div><div class="a-head">▼</div></div>
+  </div>
+
+  <!-- LAYER 4: BOTS -->
+  <div class="section-title">Trading Bots</div>
+  <div class="layer">
+    <div class="box box-bot">
+      <span class="tag">Best EV +0.57</span>
+      <span class="name">Mean Reversion</span>
+      <span class="detail">30 trades · +$8,248</span>
+      <br><span class="badge badge-yellow">⚠ IDLE 53h</span>
+    </div>
+    <div class="box box-bot-dead">
+      <span class="tag">EV -0.16</span>
+      <span class="name">SuperTrend</span>
+      <span class="detail">110 trades · -$1,332</span>
+      <br><span class="badge badge-red">✕ LOSING</span>
+    </div>
+    <div class="box box-bot-dead">
+      <span class="tag">EV -0.18</span>
+      <span class="name">Copy Trading</span>
+      <span class="detail">59 trades · -$77</span>
+      <br><span class="badge badge-red">✕ LOSING</span>
+    </div>
+    <div class="box box-bot" style="border-color:#30363d;color:#7d8590;">
+      <span class="tag">No data</span>
+      <span class="name">Spot Dip/Pump</span>
+      <span class="detail">0 trades ever</span>
+      <br><span class="badge badge-grey">● NEVER FIRED</span>
+    </div>
+    <div class="box box-bot" style="border-color:#30363d;color:#7d8590;">
+      <span class="tag">Paper · No data</span>
+      <span class="name">Hybrid Bot</span>
+      <span class="detail">0 trades ever</span>
+      <br><span class="badge badge-grey">● NEVER FIRED</span>
+    </div>
+  </div>
+
+  <!-- ACK ARROW BACK UP -->
+  <div class="ack-row" style="margin-top:10px;">
+    <div class="ack-line"></div>
+    <span>↑ acknowledged_at written back to directives.json</span>
+    <div class="ack-line"></div>
+  </div>
+
+  <!-- ARROW DOWN TO TELEGRAM -->
+  <div class="arrow-row" style="margin-top:6px;">
+    <div class="arrow-down">
+      <div class="arrow-line" style="background:linear-gradient(to bottom,#0ea5e9,#30363d);"></div>
+      <div class="arrow-head" style="color:#0ea5e9;">▼</div>
+    </div>
+  </div>
+
+  <!-- LAYER 5: TELEGRAM -->
+  <div class="section-title">Telegram Interface</div>
+  <div class="layer">
+    <div class="box box-telegram">
+      <span class="tag">Commands</span>
+      <span class="name">/report &nbsp;·&nbsp; /brain &nbsp;·&nbsp; /recommend</span>
+      <span class="detail">/best &nbsp;·&nbsp; /worst &nbsp;·&nbsp; Manager Alerts</span>
+    </div>
+  </div>
+
+  <!-- ARROW DOWN TO BARRY -->
+  <div class="arrow-row">
+    <div class="arrow-down">
+      <div class="arrow-line" style="background:linear-gradient(to bottom,#d29922,#30363d);"></div>
+      <div class="arrow-head" style="color:#d29922;">▼</div>
+    </div>
+  </div>
+
+  <!-- LAYER 6: BARRY -->
+  <div class="layer">
+    <div class="box box-barry">
+      <span style="font-size:20px;">👤</span>
+      <span class="name" style="margin-top:6px;display:block;">Barry</span>
+      <span class="detail">Reads report · Takes action if needed · Sets direction</span>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#0d2230;border-color:#1f6feb;"></div>
+      <span>Core system</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#1a1230;border-color:#8b5cf6;"></div>
+      <span>Brain modules</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#0f1e14;border-color:#238636;"></div>
+      <span>Active bot</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#1a1212;border-color:#6e4040;"></div>
+      <span>Bot with issues</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#1a2430;border-color:#e3b341;"></div>
+      <span>Directive / data file</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#161b22;border-color:#1f6feb;"></div>
+      <span>External API</span>
+    </div>
+  </div>
+
+  <p style="text-align:center;font-size:10px;color:#30363d;margin-top:20px;">Last updated: 15 Apr 2026 · Autonomous Trading System v2</p>
+
+</div>
+</body>
+</html>
