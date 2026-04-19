@@ -3,554 +3,215 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Trading Organisation Architecture</title>
+<title>Trading System Architecture — Simplified Mode</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    background: #0d1117;
-    color: #e6edf3;
+    background: #0d0d0d;
     font-family: 'Segoe UI', system-ui, sans-serif;
+    color: #e8e8e8;
+    padding: 32px 24px;
     min-height: 100vh;
-    padding: 32px 20px 60px;
   }
-
-  .flow-wrap { max-width: 1060px; margin: 0 auto; }
-
-  h1 {
-    text-align: center;
-    font-size: 22px;
-    font-weight: 700;
-    color: #f0f6fc;
-    margin-bottom: 6px;
-    letter-spacing: 0.4px;
-  }
-  .subtitle {
-    text-align: center;
-    font-size: 13px;
-    color: #7d8590;
-    margin-bottom: 36px;
-  }
-
-  /* ── Section labels ─────────────────────────────── */
-  .section-title {
-    text-align: center;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #484f58;
-    margin: 10px 0 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-  }
-  .section-title::before, .section-title::after {
-    content: '';
-    flex: 1;
-    max-width: 120px;
-    height: 1px;
-    background: #21262d;
-  }
-
-  /* ── Arrow connectors ───────────────────────────── */
-  .arrow-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 34px;
-  }
-  .arrow-down {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .arrow-line { width: 2px; height: 18px; background: linear-gradient(to bottom, #238636, #30363d); border-radius: 1px; }
-  .arrow-head { color: #238636; font-size: 13px; margin-top: -2px; }
-
-  .arrow-blue  .arrow-line { background: linear-gradient(to bottom, #1f6feb, #30363d); }
-  .arrow-blue  .arrow-head { color: #1f6feb; }
-  .arrow-amber .arrow-line { background: linear-gradient(to bottom, #d29922, #30363d); }
-  .arrow-amber .arrow-head { color: #d29922; }
-  .arrow-teal  .arrow-line { background: linear-gradient(to bottom, #0ea5e9, #30363d); }
-  .arrow-teal  .arrow-head { color: #0ea5e9; }
-
-  /* ── Spread arrows ──────────────────────────────── */
-  .spread-arrows {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    align-items: flex-start;
-    height: 44px;
-    position: relative;
-    margin: 2px 0;
-  }
-  .spread-arrows::before {
-    content: '';
-    position: absolute;
-    top: 18px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 76%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, #238636 10%, #238636 90%, transparent);
-  }
-  .spread-arrow-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 18px;
-  }
-  .spread-arrow-item .a-line { width: 2px; height: 14px; background: #238636; }
-  .spread-arrow-item .a-head { color: #238636; font-size: 12px; margin-top: -2px; }
-
-  /* ── Generic box ────────────────────────────────── */
-  .box {
-    border-radius: 10px;
-    padding: 11px 15px;
-    font-size: 12px;
-    font-weight: 500;
-    text-align: center;
-    border: 1px solid;
-    cursor: default;
-    transition: transform 0.15s, box-shadow 0.15s;
-    min-width: 120px;
-  }
-  .box:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.45); }
-  .box .tag  { display: block; font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; opacity: 0.7; margin-bottom: 3px; }
-  .box .name { display: block; font-size: 13px; font-weight: 600; }
-  .box .detail { display: block; font-size: 10px; margin-top: 4px; opacity: 0.6; font-weight: 400; }
-
-  /* ── Colour themes ──────────────────────────────── */
-  .box-ext      { background:#161b22; border-color:#1f6feb; color:#79c0ff; }
-  .box-ext .tag { color:#388bfd; }
-
-  .box-core     { background:#0d2230; border-color:#1f6feb; color:#58a6ff; min-width:240px; padding:16px 24px; }
-  .box-core .tag{ color:#388bfd; }
-  .box-core .name{ font-size:15px; }
-
-  .box-brain-sm {
-    background:#1a1230; border-color:#6d28d9; color:#c4b5fd;
-    border-radius:8px; padding:9px 13px; font-size:11px; font-weight:500;
-    border:1px solid; min-width:108px; text-align:center; cursor:default;
-    transition:transform 0.15s;
-  }
-  .box-brain-sm:hover { transform:translateY(-2px); }
-  .box-brain-sm .sm-tag  { display:block; font-size:9px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#7c3aed; margin-bottom:2px; }
-  .box-brain-sm .sm-name { display:block; font-size:11px; font-weight:600; }
-  .box-brain-sm .sm-file { display:block; font-size:9px; color:#7d8590; margin-top:2px; font-family:monospace; }
-
-  .box-dir      { background:#1a2430; border-color:#e3b341; color:#e3b341; }
-  .box-dir .tag { color:#d29922; }
-
-  .box-bot      { background:#0f1e14; border-color:#238636; color:#7ee787; }
-  .box-bot .tag { color:#3fb950; }
-
-  .box-bot-warn { background:#1c1a10; border-color:#9e6a03; color:#e3b341; }
-  .box-bot-warn .tag { color:#bb8009; }
-
-  .box-bot-dead { background:#1a1212; border-color:#6e4040; color:#f85149; opacity:0.85; }
-  .box-bot-dead .tag { color:#da3633; }
-
-  .box-bot-grey { background:#161b22; border-color:#30363d; color:#7d8590; }
-  .box-bot-grey .tag { color:#484f58; }
-
-  .box-options  { background:#0d1e24; border-color:#0891b2; color:#22d3ee; }
-  .box-options .tag { color:#0ea5e9; }
-
-  .box-tao      { background:#150e2a; border-color:#7c3aed; color:#a78bfa; }
-  .box-tao .tag { color:#8b5cf6; }
-
-  .box-infra    { background:#111c20; border-color:#0e7490; color:#67e8f9; }
-  .box-infra .tag { color:#06b6d4; }
-
-  .box-infra-off { background:#131a1c; border-color:#1e3040; color:#374e5c; opacity:0.7; }
-  .box-infra-off .tag { color:#1f3a4a; }
-
-  .box-telegram { background:#0f1e2a; border-color:#0369a1; color:#38bdf8; min-width:300px; }
-  .box-telegram .tag { color:#0ea5e9; }
-
-  .box-barry    { background:#1a1400; border-color:#d29922; color:#e3b341; min-width:210px; padding:14px 28px; }
-
-  /* ── Status badges ──────────────────────────────── */
-  .badge { display:inline-block; font-size:9px; font-weight:700; letter-spacing:0.5px; padding:2px 6px; border-radius:4px; margin-top:5px; text-transform:uppercase; }
-  .b-green  { background:#1a4228; color:#7ee787; }
-  .b-red    { background:#3d1515; color:#f85149; }
-  .b-yellow { background:#2d2000; color:#e3b341; }
-  .b-grey   { background:#21262d; color:#7d8590; }
-  .b-blue   { background:#0c2040; color:#58a6ff; }
-  .b-cyan   { background:#0a2030; color:#22d3ee; }
-  .b-purple { background:#1c1033; color:#c4b5fd; }
-  .b-stop   { background:#1c1c1c; color:#484f58; }
-
-  /* ── Row / layout helpers ───────────────────────── */
-  .layer       { display:flex; justify-content:center; gap:12px; flex-wrap:wrap; }
-  .brain-row   { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:6px; }
-
-  /* ── Subsystem group cards ──────────────────────── */
-  .sys-group {
-    border: 1px solid #21262d;
-    border-radius: 12px;
-    padding: 14px 16px;
-    background: #0d1117;
-    min-width: 180px;
-    flex: 1;
-  }
-  .sys-group-title {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: #484f58;
-    margin-bottom: 10px;
-    text-align: center;
-  }
-  .sys-group .inner { display:flex; flex-direction:column; gap:8px; align-items:center; }
-  .sys-groups-row { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
-
-  /* ── Dotted feedback line ───────────────────────── */
-  .ack-row { display:flex; justify-content:center; align-items:center; margin:6px 0; gap:8px; font-size:10px; color:#484f58; }
-  .ack-line { flex:1; max-width:80px; height:1px; background:repeating-linear-gradient(90deg,#30363d 0,#30363d 4px,transparent 4px,transparent 8px); }
-
-  /* ── Legend ─────────────────────────────────────── */
-  .legend {
-    display:flex; justify-content:center; gap:18px; flex-wrap:wrap;
-    margin-top:44px; padding-top:22px; border-top:1px solid #21262d;
-    font-size:11px; color:#7d8590;
-  }
-  .legend-item { display:flex; align-items:center; gap:6px; }
-  .legend-dot  { width:10px; height:10px; border-radius:2px; border:1px solid; }
-
-  .pm2-id { font-size:9px; font-family:monospace; color:#484f58; margin-top:2px; display:block; }
+  h1 { text-align: center; font-size: 22px; font-weight: 600; color: #fff; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .subtitle { text-align: center; font-size: 13px; color: #888; margin-bottom: 36px; }
+  .badge { display: inline-block; background: #1a3a1a; color: #4ade80; border: 1px solid #22c55e44; border-radius: 20px; padding: 3px 12px; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; margin-left: 10px; vertical-align: middle; }
+  .grid { display: grid; grid-template-columns: 190px 1fr 190px; gap: 0 24px; max-width: 1080px; margin: 0 auto; align-items: start; }
+  .col-label { text-align: center; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #555; padding-bottom: 10px; }
+  .sources-col { display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
+  .source-card { background: #141414; border: 1px solid #2a2a2a; border-radius: 10px; padding: 14px 16px; text-align: center; }
+  .source-card .icon { font-size: 22px; margin-bottom: 5px; }
+  .source-card .name { font-size: 13px; font-weight: 600; color: #ccc; }
+  .source-card .desc { font-size: 11px; color: #666; margin-top: 3px; }
+  .bots-col { display: flex; flex-direction: column; gap: 9px; padding-top: 8px; }
+  .bot-row { display: flex; align-items: center; background: #141414; border: 1px solid #2a2a2a; border-radius: 10px; padding: 11px 15px; gap: 12px; }
+  .bot-row.active { border-left: 3px solid #3b82f6; }
+  .bot-row.paper  { border-left: 3px solid #a78bfa; }
+  .bot-icon { font-size: 19px; width: 26px; text-align: center; flex-shrink: 0; }
+  .bot-info { flex: 1; min-width: 0; }
+  .bot-name { font-size: 13px; font-weight: 600; color: #e2e8f0; }
+  .bot-strategy { font-size: 11px; color: #666; margin-top: 2px; }
+  .bot-status { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 9px; border-radius: 12px; flex-shrink: 0; }
+  .status-live { background: #1a3a1a; color: #4ade80; border: 1px solid #22c55e44; }
+  .status-paper { background: #1e1a3a; color: #a78bfa; border: 1px solid #a78bfa44; }
+  .right-col { display: flex; flex-direction: column; gap: 12px; padding-top: 8px; }
+  .output-card { background: #141414; border: 1px solid #2a2a2a; border-radius: 10px; padding: 14px 16px; text-align: center; }
+  .output-card .icon { font-size: 22px; margin-bottom: 5px; }
+  .output-card .name { font-size: 13px; font-weight: 600; color: #ccc; }
+  .output-card .desc { font-size: 11px; color: #666; margin-top: 3px; line-height: 1.5; }
+  .output-card.analyser { border-color: #2563eb44; border-left: 3px solid #3b82f6; }
+  .output-card.telegram { border-color: #0ea5e944; border-left: 3px solid #0ea5e9; }
+  .output-card.dashboard { border-color: #f59e0b44; border-left: 3px solid #f59e0b; }
+  .commands { display: flex; flex-wrap: wrap; gap: 4px; justify-content: center; margin-top: 8px; }
+  .cmd { background: #1a2a3a; color: #7dd3fc; font-size: 10px; font-family: monospace; padding: 2px 7px; border-radius: 5px; border: 1px solid #1e4060; }
+  .paused-section { max-width: 1080px; margin: 28px auto 0; border: 1px dashed #3a2020; border-radius: 12px; padding: 20px 24px; background: #120c0c; }
+  .paused-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: #7f1d1d; margin-bottom: 14px; }
+  .paused-cards { display: flex; gap: 14px; flex-wrap: wrap; }
+  .paused-card { flex: 1; min-width: 210px; background: #1a0f0f; border: 1px solid #3a2020; border-radius: 10px; padding: 13px 15px; opacity: 0.75; }
+  .paused-card .p-name { font-size: 13px; font-weight: 600; color: #f87171; margin-bottom: 4px; }
+  .paused-card .p-desc { font-size: 11px; color: #555; line-height: 1.6; }
+  .paused-card .p-why { font-size: 11px; color: #7f1d1d; margin-top: 6px; font-style: italic; }
+  .legend { max-width: 1080px; margin: 20px auto 0; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #666; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .last-updated { text-align: center; font-size: 11px; color: #444; margin-top: 24px; }
 </style>
 </head>
 <body>
-<div class="flow-wrap">
 
-  <h1>🤖 Autonomous Trading Organisation</h1>
-  <p class="subtitle">Full architecture — 19 processes · VPS 37.27.30.20 · 15 Apr 2026</p>
+<h1>Trading System Architecture <span class="badge">SIMPLIFIED MODE</span></h1>
+<p class="subtitle">Brain paused &nbsp;·&nbsp; Reviewer paused &nbsp;·&nbsp; All bots on original clean logic &nbsp;·&nbsp; 19 Apr 2026</p>
 
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- LAYER 1 — EXTERNAL DATA FEEDS                  -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-title">Live Market Data</div>
-  <div class="layer">
-    <div class="box box-ext">
-      <span class="tag">Free API</span>
-      <span class="name">Binance Spot</span>
-      <span class="detail">OHLCV · Ticker · Volume</span>
+<div class="grid" style="margin-bottom:6px;">
+  <div class="col-label">Signal Sources</div>
+  <div class="col-label">Trading Bots &nbsp;·&nbsp; 7 Active</div>
+  <div class="col-label">Output Layer</div>
+</div>
+
+<div class="grid">
+
+  <!-- LEFT -->
+  <div class="sources-col">
+    <div class="source-card">
+      <div class="icon">🔗</div>
+      <div class="name">Hyperliquid</div>
+      <div class="desc">Live price feed · Order execution · WebSocket</div>
     </div>
-    <div class="box box-ext">
-      <span class="tag">Free API</span>
-      <span class="name">Fear &amp; Greed</span>
-      <span class="detail">alternative.me · 0–100</span>
+    <div class="source-card">
+      <div class="icon">📡</div>
+      <div class="name">TradingView</div>
+      <div class="desc">Webhook alerts · Indicator signals</div>
     </div>
-    <div class="box box-ext">
-      <span class="tag">Free API</span>
-      <span class="name">Binance 24h</span>
-      <span class="detail">Price change · High/Low</span>
-    </div>
-    <div class="box box-tao" style="border-color:#6d28d9;">
-      <span class="tag">Network</span>
-      <span class="name">TAO / Bittensor</span>
-      <span class="detail">Subnet signals · Alerts</span>
-    </div>
-  </div>
-
-  <div class="arrow-row"><div class="arrow-down"><div class="arrow-line"></div><div class="arrow-head">▼</div></div></div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- LAYER 2 — BRAIN                                -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-title">Trade Analyser Brain</div>
-
-  <div style="display:flex;justify-content:center;margin-bottom:10px;">
-    <div class="box box-core">
-      <span class="tag">Orchestrator · pm2 #18: trade-analyser</span>
-      <span class="name">Trade Analyser Bot</span>
-      <span class="detail">Runs every 30 min · Emergency checks every 5 min</span>
-      <span class="badge b-green">● ONLINE</span>
+    <div class="source-card">
+      <div class="icon">📊</div>
+      <div class="name">Market Data</div>
+      <div class="desc">OHLCV · RSI · ADX · Bollinger · SuperTrend</div>
     </div>
   </div>
 
-  <div class="brain-row">
-    <div class="box-brain-sm"><span class="sm-tag">Phase 1</span><span class="sm-name">Market Intel</span><span class="sm-file">market_intel.py</span></div>
-    <div class="box-brain-sm"><span class="sm-tag">Phase 2</span><span class="sm-name">Strategy Fitness</span><span class="sm-file">strategy_fitness.py</span></div>
-    <div class="box-brain-sm"><span class="sm-tag">Phase 3</span><span class="sm-name">Trade Quality</span><span class="sm-file">trade_analyser_deep.py</span></div>
-    <div class="box-brain-sm"><span class="sm-tag">Phase 4</span><span class="sm-name">Quant Sizer</span><span class="sm-file">quant_sizer.py</span></div>
-    <div class="box-brain-sm"><span class="sm-tag">Phase 5</span><span class="sm-name">Decision Engine</span><span class="sm-file">decision_engine.py</span></div>
+  <!-- CENTRE -->
+  <div class="bots-col">
+    <div class="bot-row active">
+      <div class="bot-icon">📈</div>
+      <div class="bot-info">
+        <div class="bot-name">SuperTrend Bot</div>
+        <div class="bot-strategy">SuperTrend indicator · Partial TP +1.5R · SL locks +0.5R</div>
+      </div>
+      <div class="bot-status status-live">Live</div>
+    </div>
+    <div class="bot-row active">
+      <div class="bot-icon">🔄</div>
+      <div class="bot-info">
+        <div class="bot-name">Mean Reversion Bot</div>
+        <div class="bot-strategy">RSI + Bollinger Bands · Best historical EV (+0.57)</div>
+      </div>
+      <div class="bot-status status-live">Live</div>
+    </div>
+    <div class="bot-row active">
+      <div class="bot-icon">📋</div>
+      <div class="bot-info">
+        <div class="bot-name">Copy Trading Bot</div>
+        <div class="bot-strategy">Mirrors live signal source trades</div>
+      </div>
+      <div class="bot-status status-live">Live</div>
+    </div>
+    <div class="bot-row active">
+      <div class="bot-icon">🧠</div>
+      <div class="bot-info">
+        <div class="bot-name">Hybrid Bot</div>
+        <div class="bot-strategy">Multi-gate: ADX + CVD + RSI + DI filters</div>
+      </div>
+      <div class="bot-status status-live">Live</div>
+    </div>
+    <div class="bot-row paper">
+      <div class="bot-icon">📉</div>
+      <div class="bot-info">
+        <div class="bot-name">Spot Dip/Pump Bot</div>
+        <div class="bot-strategy">Webhook-driven · Dip/pump signals · Accumulation</div>
+      </div>
+      <div class="bot-status status-paper">Paper</div>
+    </div>
+    <div class="bot-row active">
+      <div class="bot-icon">⚙️</div>
+      <div class="bot-info">
+        <div class="bot-name">Options Premium Bot</div>
+        <div class="bot-strategy">Delta · Premium · DTE signals</div>
+      </div>
+      <div class="bot-status status-live">Live</div>
+    </div>
+    <div class="bot-row active">
+      <div class="bot-icon">📐</div>
+      <div class="bot-info">
+        <div class="bot-name">Options Spread Bot</div>
+        <div class="bot-strategy">EMA · RSI · Volume · Resistance signals</div>
+      </div>
+      <div class="bot-status status-live">Live</div>
+    </div>
   </div>
 
-  <div class="arrow-row"><div class="arrow-down"><div class="arrow-line"></div><div class="arrow-head">▼</div></div></div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- LAYER 3 — DIRECTIVE LAYER                      -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-title">Directive Layer</div>
-  <div class="layer" style="margin-bottom:4px;">
-    <div class="box box-dir">
-      <span class="tag">Shared file · /root/data/</span>
-      <span class="name">manager_directives.json</span>
-      <span class="detail">pause · resume · set_trade_size · filter</span>
+  <!-- RIGHT -->
+  <div class="right-col">
+    <div class="output-card">
+      <div class="icon">💾</div>
+      <div class="name">JSON Data Files</div>
+      <div class="desc">/root/data/<br>Trades · Balances · P&amp;L</div>
     </div>
-    <div class="box box-dir" style="border-color:#4a3728;color:#c9a26a;">
-      <span class="tag">Audit trail · /root/data/</span>
-      <span class="name">decision_log.json</span>
-      <span class="detail">Every decision + reason logged</span>
-    </div>
-    <div class="box box-dir" style="border-color:#1f6feb;color:#79c0ff;">
-      <span class="tag">Market cache · /root/data/</span>
-      <span class="name">market_intel.json</span>
-      <span class="detail">Refreshed every 15 min</span>
-    </div>
-  </div>
-  <div style="display:flex;justify-content:center;margin:4px 0 2px;">
-    <div style="display:flex;align-items:center;gap:8px;font-size:10px;color:#484f58;">
-      <div style="width:44px;height:1px;background:repeating-linear-gradient(90deg,#e3b341 0,#e3b341 4px,transparent 4px,transparent 8px);"></div>
-      <span>directive_reader.py — imported by all bots</span>
-      <div style="width:44px;height:1px;background:repeating-linear-gradient(90deg,#e3b341 0,#e3b341 4px,transparent 4px,transparent 8px);"></div>
-    </div>
-  </div>
-
-  <!-- spread arrows × 6 subsystems -->
-  <div class="spread-arrows" style="gap:30px;">
-    <div class="spread-arrow-item"><div class="a-line"></div><div class="a-head">▼</div></div>
-    <div class="spread-arrow-item"><div class="a-line"></div><div class="a-head">▼</div></div>
-    <div class="spread-arrow-item"><div class="a-line"></div><div class="a-head">▼</div></div>
-    <div class="spread-arrow-item"><div class="a-line"></div><div class="a-head">▼</div></div>
-    <div class="spread-arrow-item"><div class="a-line"></div><div class="a-head">▼</div></div>
-    <div class="spread-arrow-item"><div class="a-line"></div><div class="a-head">▼</div></div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- LAYER 4 — TRADING SYSTEMS                      -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-title">Trading Systems</div>
-
-  <div class="sys-groups-row">
-
-    <!-- Mean Reversion -->
-    <div class="sys-group" style="border-color:#238636;">
-      <div class="sys-group-title" style="color:#3fb950;">Mean Reversion System</div>
-      <div class="inner">
-        <div class="box box-bot" style="width:100%;">
-          <span class="tag">pm2 #7 · Best EV +0.57</span>
-          <span class="name">mean-reversion-bot</span>
-          <span class="detail">Main trade executor</span>
-          <span class="badge b-green">● ONLINE</span>
-        </div>
-        <div class="box box-bot" style="width:100%;border-color:#1a4228;color:#3fb950;">
-          <span class="tag">pm2 #8 · Telegram</span>
-          <span class="name">mr-command-handler</span>
-          <span class="detail">Commands · Reports</span>
-          <span class="badge b-green">● ONLINE 4D</span>
-        </div>
-        <div class="box box-bot" style="width:100%;border-color:#1a4228;color:#3fb950;">
-          <span class="tag">pm2 #9 · ML</span>
-          <span class="name">mr-learner-bot</span>
-          <span class="detail">Adaptive learning</span>
-          <span class="badge b-green">● ONLINE 43h</span>
-        </div>
+    <div class="output-card analyser">
+      <div class="icon">🔍</div>
+      <div class="name">Trade Analyser</div>
+      <div class="desc">Reads all bot data · Ranks by EV · Plain English reports</div>
+      <div class="commands">
+        <span class="cmd">/report</span>
+        <span class="cmd">/best</span>
+        <span class="cmd">/worst</span>
+        <span class="cmd">/recommend</span>
+        <span class="cmd">/health</span>
       </div>
     </div>
-
-    <!-- Spot / GBTVHL -->
-    <div class="sys-group" style="border-color:#0891b2;">
-      <div class="sys-group-title" style="color:#22d3ee;">Spot / GBTVHL System</div>
-      <div class="inner">
-        <div class="box box-options" style="width:100%;">
-          <span class="tag">pm2 #11 · Daemon</span>
-          <span class="name">spot-daemon</span>
-          <span class="detail">Live trade executor</span>
-          <span class="badge b-cyan">● ONLINE 45h</span>
-        </div>
-        <div class="box box-options" style="width:100%;">
-          <span class="tag">pm2 #10 · Signals</span>
-          <span class="name">spot-webhook</span>
-          <span class="detail">Entry signal receiver</span>
-          <span class="badge b-cyan">● ONLINE</span>
-        </div>
-        <div class="box box-options" style="width:100%;">
-          <span class="tag">pm2 #12 · Telegram</span>
-          <span class="name">spot-telegram</span>
-          <span class="detail">Commands · Alerts</span>
-          <span class="badge b-cyan">● ONLINE 45h</span>
-        </div>
-      </div>
+    <div class="output-card telegram">
+      <div class="icon">✈️</div>
+      <div class="name">Telegram</div>
+      <div class="desc">Performance reports · Alerts · On-demand commands</div>
     </div>
-
-    <!-- Options -->
-    <div class="sys-group" style="border-color:#0e7490;">
-      <div class="sys-group-title" style="color:#67e8f9;">Options Systems</div>
-      <div class="inner">
-        <div class="box box-infra" style="width:100%;border-color:#0891b2;color:#22d3ee;">
-          <span class="tag">pm2 #25 · 8h</span>
-          <span class="name">options-premium-bot</span>
-          <span class="detail">Premium collection</span>
-          <span class="badge b-cyan">● ONLINE</span>
-        </div>
-        <div class="box box-infra" style="width:100%;border-color:#0891b2;color:#22d3ee;">
-          <span class="tag">pm2 #26 · 8h</span>
-          <span class="name">options-spread-bot</span>
-          <span class="detail">Spread strategies</span>
-          <span class="badge b-cyan">● ONLINE</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- SuperTrend + Copy -->
-    <div class="sys-group" style="border-color:#6e4040;">
-      <div class="sys-group-title" style="color:#f85149;">Underperforming Bots</div>
-      <div class="inner">
-        <div class="box box-bot-dead" style="width:100%;">
-          <span class="tag">pm2 #3 · EV -0.18 · 42↺</span>
-          <span class="name">supertrend</span>
-          <span class="detail">110 trades · –$1,332</span>
-          <span class="badge b-red">✕ LOSING</span>
-        </div>
-        <div class="box box-bot-dead" style="width:100%;">
-          <span class="tag">pm2 #4 · EV -0.16 · 20↺</span>
-          <span class="name">copy-bot</span>
-          <span class="detail">59 trades · –$77</span>
-          <span class="badge b-red">✕ LOSING</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Hybrid -->
-    <div class="sys-group" style="border-color:#30363d;">
-      <div class="sys-group-title" style="color:#7d8590;">Hybrid System</div>
-      <div class="inner">
-        <div class="box box-bot-grey" style="width:100%;">
-          <span class="tag">pm2 #15 · Paper</span>
-          <span class="name">hybrid-bot</span>
-          <span class="detail">0 trades · paper mode</span>
-          <span class="badge b-grey">● NEVER FIRED</span>
-        </div>
-        <div class="box box-bot-grey" style="width:100%;">
-          <span class="tag">pm2 #17 · Telegram</span>
-          <span class="name">hybrid-telegram</span>
-          <span class="detail">Commands interface</span>
-          <span class="badge b-grey">● ONLINE 3D</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAO -->
-    <div class="sys-group" style="border-color:#7c3aed;">
-      <div class="sys-group-title" style="color:#a78bfa;">TAO / Bittensor</div>
-      <div class="inner">
-        <div class="box box-tao" style="width:100%;">
-          <span class="tag">pm2 #20 · 3D</span>
-          <span class="name">tao-alerts</span>
-          <span class="detail">Network alert monitor</span>
-          <span class="badge b-purple">● ONLINE</span>
-        </div>
-        <div class="box box-tao" style="width:100%;">
-          <span class="tag">pm2 #19 · 3D</span>
-          <span class="name">tao-dashboard</span>
-          <span class="detail">TAO web dashboard</span>
-          <span class="badge b-purple">● ONLINE</span>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /sys-groups-row -->
-
-  <!-- ack feedback line -->
-  <div class="ack-row" style="margin-top:12px;">
-    <div class="ack-line"></div>
-    <span>↑ acknowledged_at written back to directives.json on every bot action</span>
-    <div class="ack-line"></div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- LAYER 5 — INFRASTRUCTURE                       -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-title" style="margin-top:18px;">System Infrastructure</div>
-  <div class="layer" style="gap:10px;">
-    <div class="box box-infra">
-      <span class="tag">pm2 #23 · 3D</span>
-      <span class="name">system-watchdog</span>
-      <span class="detail">Monitors all 13 bots</span>
-      <span class="badge b-blue">● ONLINE</span>
-    </div>
-    <div class="box box-infra">
-      <span class="tag">pm2 #27 · 7h</span>
-      <span class="name">bot-dashboard</span>
-      <span class="detail">Web performance UI</span>
-      <span class="badge b-blue">● ONLINE</span>
-    </div>
-    <div class="box box-infra-off">
-      <span class="tag">pm2 #24 · stopped</span>
-      <span class="name">health-monitor</span>
-      <span class="detail">Extended health checks</span>
-      <span class="badge b-stop">■ STOPPED</span>
-    </div>
-    <div class="box box-infra-off">
-      <span class="tag">pm2 #29 · stopped</span>
-      <span class="name">trade-logic-reviewer</span>
-      <span class="detail">Logic review engine</span>
-      <span class="badge b-stop">■ STOPPED</span>
+    <div class="output-card dashboard">
+      <div class="icon">🖥️</div>
+      <div class="name">Bot Dashboard</div>
+      <div class="desc">37.27.30.20:5050<br>Live P&amp;L · Status</div>
     </div>
   </div>
-
-  <div class="arrow-row arrow-teal" style="margin-top:10px;">
-    <div class="arrow-down">
-      <div class="arrow-line" style="background:linear-gradient(to bottom,#0ea5e9,#30363d);"></div>
-      <div class="arrow-head" style="color:#0ea5e9;">▼</div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- LAYER 6 — TELEGRAM                             -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="section-title">Telegram Interface</div>
-  <div class="layer">
-    <div class="box box-telegram">
-      <span class="tag">Commands · Alerts · Reports</span>
-      <span class="name">/report &nbsp;·&nbsp; /brain &nbsp;·&nbsp; /recommend &nbsp;·&nbsp; /best &nbsp;·&nbsp; /worst</span>
-      <span class="detail">MR commands · Spot commands · Hybrid commands · Manager Alerts</span>
-    </div>
-  </div>
-
-  <div class="arrow-row arrow-amber">
-    <div class="arrow-down">
-      <div class="arrow-line" style="background:linear-gradient(to bottom,#d29922,#30363d);"></div>
-      <div class="arrow-head" style="color:#d29922;">▼</div>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- LAYER 7 — BARRY                                -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="layer">
-    <div class="box box-barry">
-      <span style="font-size:22px;">👤</span>
-      <span class="name" style="margin-top:6px;display:block;font-size:16px;">Barry</span>
-      <span class="detail" style="font-size:11px;">Reads reports · Sets direction · Takes action when needed</span>
-    </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════ -->
-  <!-- LEGEND                                         -->
-  <!-- ═══════════════════════════════════════════════ -->
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#0d2230;border-color:#1f6feb;"></div><span>Core brain</span></div>
-    <div class="legend-item"><div class="legend-dot" style="background:#1a1230;border-color:#6d28d9;"></div><span>Brain modules</span></div>
-    <div class="legend-item"><div class="legend-dot" style="background:#0f1e14;border-color:#238636;"></div><span>Active / profitable</span></div>
-    <div class="legend-item"><div class="legend-dot" style="background:#0d1e24;border-color:#0891b2;"></div><span>Spot / Options</span></div>
-    <div class="legend-item"><div class="legend-dot" style="background:#150e2a;border-color:#7c3aed;"></div><span>TAO system</span></div>
-    <div class="legend-item"><div class="legend-dot" style="background:#1a1212;border-color:#6e4040;"></div><span>Losing bots</span></div>
-    <div class="legend-item"><div class="legend-dot" style="background:#161b22;border-color:#30363d;"></div><span>Inactive / paper</span></div>
-    <div class="legend-item"><div class="legend-dot" style="background:#111c20;border-color:#0e7490;"></div><span>Infrastructure</span></div>
-    <div class="legend-item"><div class="legend-dot" style="background:#1a2430;border-color:#e3b341;"></div><span>Directive / data file</span></div>
-  </div>
-
-  <p style="text-align:center;font-size:10px;color:#30363d;margin-top:20px;">
-    Last updated: 15 Apr 2026 &nbsp;·&nbsp; Autonomous Trading Organisation &nbsp;·&nbsp; VPS: 37.27.30.20 &nbsp;·&nbsp; 19 PM2 processes
-  </p>
 
 </div>
+
+<!-- PAUSED -->
+<div class="paused-section">
+  <div class="paused-title">⏸ Paused Components — Intentionally Stopped</div>
+  <div class="paused-cards">
+    <div class="paused-card">
+      <div class="p-name">Market Brain</div>
+      <div class="p-desc">Was cycling every 30 mins · Analysed bot EV · Wrote directive overrides per bot (size_multiplier, entry_filter, tight/normal/loose mode)</div>
+      <div class="p-why">Paused 19 Apr — over-tightened conditions, zero trades executing across all bots</div>
+    </div>
+    <div class="paused-card">
+      <div class="p-name">Trade Logic Reviewer</div>
+      <div class="p-desc">Was running every 4h · Classified losing trades by failure mode (NO_TREND, COUNTER_TREND, LOW_VOLUME, CHOPPY_MARKET, etc.) · Auto-adjusted directives · Sent Telegram digests</div>
+      <div class="p-why">Paused 19 Apr — stacked extra entry conditions on top of original logic, blocking trades</div>
+    </div>
+    <div class="paused-card">
+      <div class="p-name">Directives System</div>
+      <div class="p-desc">/root/trade_analyser/directives/&lt;bot&gt;.json · Brain wrote size_multiplier + entry_filter overrides · Bots read at entry time</div>
+      <div class="p-why">All files reset to 1.0x size, no filters. Will re-enable only after sufficient clean trade data is collected.</div>
+    </div>
+  </div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div>Live — trading on real conditions</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#a78bfa;"></div>Paper — simulated, no real money</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f87171;"></div>Paused — stopped intentionally</div>
+</div>
+
+<p class="last-updated">Last updated: 19 Apr 2026 &nbsp;·&nbsp; VPS: 37.27.30.20 &nbsp;·&nbsp; Exchange: Hyperliquid</p>
+
 </body>
 </html>
