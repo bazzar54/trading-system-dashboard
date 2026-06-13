@@ -1,0 +1,73 @@
+// © Markov 2.0 — Hedge Fund Method (corrected) | Bullmania Edition
+//@version=5
+indicator("Markov 2.0 — Bullmania Filter", shorttitle="MKV2", overlay=false, max_bars_back=1000)
+
+i_window = input.int(20,    "Window (bars)",      minval=5,  group="Core")
+i_bull   = input.float(5.0, "Bull threshold (%)", minval=0.1,group="Core") / 100
+i_bear   = input.float(5.0, "Bear threshold (%)", minval=0.1,group="Core") / 100
+i_gate   = input.float(0.15,"Signal gate",        minval=0.0,maxval=1.0,group="Core")
+i_mode   = input.string("FILTER","Mode", options=["FILTER","STANDALONE"], group="Core")
+i_matrix = input.bool(true, "Show transition matrix", group="Display")
+i_bg     = input.bool(true, "Colour background",      group="Display")
+
+// State: 0=SIDEWAYS  1=BULL  2=BEAR  (FIX 1: stride sampling — non-overlapping)
+ret       = (close - close[i_window]) / close[i_window]
+cur_state = ret >= i_bull ? 1 : ret <= -i_bear ? 2 : 0
+is_stride = bar_index % i_window == 0
+
+var float[] cnt      = array.new_float(9, 0.0)
+var int     prev_st  = 0
+var bool    has_prev = false
+
+if is_stride
+    if has_prev
+        int ix = prev_st * 3 + cur_state
+        array.set(cnt, ix, array.get(cnt, ix) + 1.0)
+    prev_st  := cur_state
+    has_prev := true
+
+f_p(frm, dst) =>
+    float row = array.get(cnt,frm*3) + array.get(cnt,frm*3+1) + array.get(cnt,frm*3+2)
+    row > 0 ? array.get(cnt, frm*3 + dst) / row : 1.0/3.0
+
+float sig    = f_p(cur_state, 1) - f_p(cur_state, 2)
+bool allow_l = i_mode == "FILTER" ? sig >  i_gate : sig >  0.0
+bool allow_s = i_mode == "FILTER" ? sig < -i_gate : sig < -0.0
+
+sig_col = allow_l ? color.lime : allow_s ? color.red : color.new(color.gray, 30)
+plot(sig, "Signal", color=sig_col, linewidth=2)
+hline( i_gate, "Bull gate", color=color.new(color.lime,50), linestyle=hline.style_dashed)
+hline(-i_gate, "Bear gate", color=color.new(color.red, 50), linestyle=hline.style_dashed)
+hline(0.0,     "Zero",      color=color.new(color.gray,60), linestyle=hline.style_dotted)
+bg_col = allow_l ? color.new(color.lime, 92) : allow_s ? color.new(color.red, 92) : na
+bgcolor(i_bg ? bg_col : na)
+
+alertcondition(ta.crossover(sig,   i_gate), "MKV2 — BULL gate opened", "Markov 2.0: BULL gate open — Bullmania longs ALLOWED")
+alertcondition(ta.crossunder(sig,  i_gate), "MKV2 — BULL gate closed", "Markov 2.0: BULL gate closed — go flat")
+alertcondition(ta.crossunder(sig, -i_gate), "MKV2 — BEAR gate opened", "Markov 2.0: BEAR gate open — short bias active")
+alertcondition(ta.crossover(sig,  -i_gate), "MKV2 — BEAR gate closed", "Markov 2.0: BEAR gate closed")
+
+if i_matrix and barstate.islast
+    var table t = table.new(position.top_right, 5, 5,
+         border_width=1, border_color=color.new(color.white,65))
+    string[] h  = array.from("FROM→TO","SIDEWAYS","BULL","BEAR","SIGNAL")
+    color[]  hc = array.from(color.white,color.gray,color.lime,color.red,color.yellow)
+    for c = 0 to 4
+        table.cell(t, c, 0, array.get(h,c), text_color=array.get(hc,c),
+             bgcolor=color.new(color.black,15), text_size=size.small)
+    string[] names = array.from("SIDEWAYS","BULL","BEAR")
+    color[]  nc    = array.from(color.gray,color.lime,color.red)
+    for r = 0 to 2
+        bool  is_cur = r == cur_state
+        color row_bg = is_cur ? color.new(color.yellow,80) : color.new(color.black,40)
+        table.cell(t, 0, r+1, array.get(names,r) + (is_cur ? " ◀" : ""),
+             text_color=array.get(nc,r), bgcolor=row_bg, text_size=size.small)
+        for c = 0 to 2
+            float p    = f_p(r, c)
+            color c_bg = r == c ? color.new(color.yellow,65) : row_bg
+            table.cell(t, c+1, r+1, str.tostring(math.round(p*1000)/10) + "%",
+                 text_color=color.white, bgcolor=c_bg, text_size=size.small)
+        float s  = f_p(r,1) - f_p(r,2)
+        color sc = s > 0.05 ? color.lime : s < -0.05 ? color.red : color.gray
+        table.cell(t, 4, r+1, str.tostring(math.round(s*100)/100),
+             text_color=sc, bgcolor=row_bg, text_size=size.small)
