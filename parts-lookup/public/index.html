@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Parts Lookup</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icon.svg" />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+</head>
+<body>
+  <main>
+    <h1>Parts Lookup</h1>
+    <p class="subtitle">Photograph a part. Get its manufacturer part number and supplier availability.</p>
+
+    <div class="capture">
+      <input id="photo-input" type="file" accept="image/*" capture="environment" />
+      <img id="preview" alt="Selected part photo" hidden />
+      <button id="identify-btn" disabled>Identify part</button>
+    </div>
+
+    <div id="status" class="status" hidden></div>
+
+    <div id="results" class="results" hidden></div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

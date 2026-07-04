@@ -1,0 +1,12 @@
+{
+  "name": "Parts Lookup",
+  "short_name": "Parts Lookup",
+  "description": "Photograph a part, get its manufacturer part number and supplier availability.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#17181a",
+  "theme_color": "#2563eb",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
