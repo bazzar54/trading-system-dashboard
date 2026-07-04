@@ -26,7 +26,9 @@ production.
   returns a valid catalog entry, so you can exercise the full pipeline with
   no credentials.
 - **`ANTHROPIC_API_KEY` set:** recognition calls the real Claude API to
-  identify the part from the photo.
+  identify the part from the photo. Defaults to `claude-haiku-4-5-20251001`,
+  the cheapest current vision-capable model — a single photo identification
+  costs a fraction of a cent, so it's safe to leave the key in while testing.
 
 ## Setup
 
@@ -38,6 +40,25 @@ npm start
 ```
 
 Open http://localhost:3000, take/upload a photo, click "Identify part".
+
+## Testing from your phone or iPad
+
+The app runs on your computer, but you can reach it from your phone/iPad
+over the same Wi-Fi network — no deployment needed yet:
+
+1. Find your computer's local IP address:
+   - Mac: `ipconfig getifaddr en0` (or check Wi-Fi settings → Details)
+   - It looks like `192.168.x.x`
+2. Start the server as above (`npm start`).
+3. On your phone/iPad (same Wi-Fi), open Safari/Chrome and go to
+   `http://<that-ip>:3000` (e.g. `http://192.168.1.42:3000`).
+4. Tap the photo input — on mobile this opens your camera directly
+   (`capture="environment"` is already set for the rear camera).
+
+This works in demo mode with no API key at all, so you can try the full
+photo → result flow today. Add `ANTHROPIC_API_KEY` later, whenever you're
+ready for real recognition — no code changes needed, just set the
+environment variable and restart.
 
 ## Extending
 

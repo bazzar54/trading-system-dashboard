@@ -2,7 +2,7 @@ const crypto = require('crypto');
 const catalog = require('../data/parts-catalog.json');
 
 const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
-const DEFAULT_MODEL = 'claude-opus-4-8';
+const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
 
 const IDENTIFY_PROMPT = `You are looking at a photo of a single engineering/industrial part with no readable label, barcode, or stamped text visible (identification must come from shape and visual features alone).
 
