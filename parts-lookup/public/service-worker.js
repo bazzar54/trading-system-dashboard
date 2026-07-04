@@ -1,4 +1,4 @@
-const CACHE_NAME = 'parts-lookup-shell-v1';
+const CACHE_NAME = 'parts-lookup-shell-v2';
 const SHELL_FILES = ['/', '/index.html', '/style.css', '/app.js', '/manifest.json', '/icon.svg'];
 
 self.addEventListener('install', (event) => {

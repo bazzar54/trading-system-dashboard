@@ -108,6 +108,22 @@ th, td {
 
 .in-stock { color: var(--in-stock); font-weight: 600; }
 .out-of-stock { color: var(--out-of-stock); font-weight: 600; }
+.placeholder { color: var(--muted); font-style: italic; }
+.footnote { color: var(--muted); font-size: 0.8rem; margin-bottom: 0; }
+
+.machine-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+select {
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--fg);
+}
 
 .overflow-x {
   overflow-x: auto;

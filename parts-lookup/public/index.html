@@ -15,9 +15,13 @@
 <body>
   <main>
     <h1>Parts Lookup</h1>
-    <p class="subtitle">Photograph a part. Get its manufacturer part number and supplier availability.</p>
+    <p class="subtitle">Photograph a bakery or catering equipment part. Get its part number and supplier.</p>
 
     <div class="capture">
+      <label class="machine-label" for="machine-select">Machine (optional — narrows the search)</label>
+      <select id="machine-select">
+        <option value="">All machines</option>
+      </select>
       <input id="photo-input" type="file" accept="image/*" capture="environment" />
       <img id="preview" alt="Selected part photo" hidden />
       <button id="identify-btn" disabled>Identify part</button>

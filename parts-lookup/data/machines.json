@@ -1,0 +1,18 @@
+[
+  {
+    "id": "mono-aztec-fg059",
+    "manufacturer": "MONO Equipment",
+    "model": "FG059",
+    "name": "MONO Aztec Doughnut Fryer",
+    "type": "doughnut fryer",
+    "sourceDoc": "https://www.monoequip.com/userfiles/Aztec%20Doughnut%20Fryer%20Spare%20Parts%20Document%20March%202023.pdf"
+  },
+  {
+    "id": "mono-bx-eco-touch",
+    "manufacturer": "MONO Equipment",
+    "model": "BX Eco-Touch",
+    "name": "MONO BX Eco-Touch Convection Oven",
+    "type": "convection oven",
+    "sourceDoc": "https://www.monoequip.com/userfiles/Spare%20Parts%20Manuals/MONO%20Eco-Touch%20BX%20Convection%20Oven%20Spares%20Manual.pdf"
+  }
+]

@@ -1,86 +1,29 @@
 [
   {
-    "id": "bolt-hex-m8x40",
-    "name": "Hex head bolt, M8 x 40mm, steel",
-    "category": "fastener",
-    "keywords": ["hex bolt", "hex head", "bolt", "m8", "screw", "fastener", "threaded"],
-    "mpn": "HB-M8X40-ZN"
+    "id": "tmp-element",
+    "name": "TEMP heating element placeholder",
+    "category": "heating element",
+    "keywords": ["heating element", "element"],
+    "mpn": "TMP-0001",
+    "manufacturer": "MONO Equipment",
+    "machines": ["mono-bx-eco-touch"]
   },
   {
-    "id": "bearing-6205",
-    "name": "Deep groove ball bearing, 6205-2RS",
-    "category": "bearing",
-    "keywords": ["bearing", "ball bearing", "6205", "sealed bearing", "race", "rolling element"],
-    "mpn": "6205-2RS-SKF"
+    "id": "tmp-thermostat",
+    "name": "TEMP thermostat placeholder",
+    "category": "thermostat",
+    "keywords": ["thermostat", "temperature control"],
+    "mpn": "TMP-0002",
+    "manufacturer": "MONO Equipment",
+    "machines": ["mono-aztec-fg059"]
   },
   {
-    "id": "oring-nbr-20x3",
-    "name": "O-ring, NBR, 20mm x 3mm cross-section",
-    "category": "seal",
-    "keywords": ["o-ring", "oring", "rubber ring", "seal", "gasket ring", "nbr"],
-    "mpn": "OR-NBR-20X3"
-  },
-  {
-    "id": "gland-m20",
-    "name": "Cable gland, M20, nylon",
-    "category": "cable management",
-    "keywords": ["cable gland", "gland", "cable entry", "strain relief", "m20"],
-    "mpn": "CG-M20-NY"
-  },
-  {
-    "id": "terminal-block-4pole",
-    "name": "Terminal block, 4-pole, DIN rail mount",
-    "category": "electrical connector",
-    "keywords": ["terminal block", "terminal", "din rail", "connector block", "wiring block"],
-    "mpn": "TB-4P-DIN"
-  },
-  {
-    "id": "relay-24vdc",
-    "name": "Relay, 24VDC coil, SPDT",
-    "category": "relay",
-    "keywords": ["relay", "spdt relay", "coil relay", "control relay", "24vdc"],
-    "mpn": "RLY-24VDC-SPDT"
-  },
-  {
-    "id": "fuse-10a-blade",
-    "name": "Automotive blade fuse, 10A",
-    "category": "fuse",
-    "keywords": ["fuse", "blade fuse", "automotive fuse", "10a fuse"],
-    "mpn": "FU-10A-BLADE"
-  },
-  {
-    "id": "valve-ball-1in",
-    "name": "Ball valve, 1 inch, brass, threaded",
-    "category": "valve",
-    "keywords": ["valve", "ball valve", "brass valve", "shutoff valve", "threaded valve"],
-    "mpn": "BV-1IN-BRASS"
-  },
-  {
-    "id": "gasket-flange-2in",
-    "name": "Flange gasket, 2 inch, spiral wound",
-    "category": "gasket",
-    "keywords": ["gasket", "flange gasket", "spiral wound", "flange seal"],
-    "mpn": "GK-FLG-2IN-SW"
-  },
-  {
-    "id": "connector-circular-8pin",
-    "name": "Circular connector, 8-pin, IP67",
-    "category": "electrical connector",
-    "keywords": ["circular connector", "8-pin connector", "ip67 connector", "waterproof connector", "multi-pin"],
-    "mpn": "CC-8P-IP67"
-  },
-  {
-    "id": "hose-clamp-32mm",
-    "name": "Worm drive hose clamp, 25-40mm range",
-    "category": "clamp",
-    "keywords": ["hose clamp", "worm drive", "jubilee clip", "clamp"],
-    "mpn": "HC-25-40-WD"
-  },
-  {
-    "id": "bushing-bronze-25mm",
-    "name": "Bronze bushing, 25mm bore",
-    "category": "bushing",
-    "keywords": ["bushing", "bronze bushing", "sleeve bearing", "bore bushing"],
-    "mpn": "BU-BR-25MM"
+    "id": "tmp-shared-castor",
+    "name": "TEMP castor placeholder",
+    "category": "castor",
+    "keywords": ["castor", "wheel"],
+    "mpn": "TMP-0003",
+    "manufacturer": "MONO Equipment",
+    "machines": ["mono-aztec-fg059", "mono-bx-eco-touch"]
   }
 ]

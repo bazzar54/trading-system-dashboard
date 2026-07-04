@@ -1,52 +1,9 @@
 {
-  "HB-M8X40-ZN": [
-    { "supplier": "RS Components", "supplierPartNo": "RS-471-2298", "inStock": true, "qty": 4200, "leadTimeDays": 1, "price": 0.18, "currency": "GBP" },
-    { "supplier": "Farnell", "supplierPartNo": "FN-118-8842", "inStock": true, "qty": 900, "leadTimeDays": 2, "price": 0.21, "currency": "GBP" },
-    { "supplier": "Fastenal", "supplierPartNo": "0165108", "inStock": false, "qty": 0, "leadTimeDays": 14, "price": 0.19, "currency": "GBP" }
+  "TMP-0001": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "TMP-0001", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Price and stock on application" }
   ],
-  "6205-2RS-SKF": [
-    { "supplier": "RS Components", "supplierPartNo": "RS-654-0271", "inStock": true, "qty": 130, "leadTimeDays": 1, "price": 4.85, "currency": "GBP" },
-    { "supplier": "Mouser", "supplierPartNo": "MS-6205-2RS", "inStock": false, "qty": 0, "leadTimeDays": 21, "price": 5.10, "currency": "GBP" },
-    { "supplier": "Bearing Boys", "supplierPartNo": "BB-6205-2RS", "inStock": true, "qty": 58, "leadTimeDays": 3, "price": 4.40, "currency": "GBP" }
+  "TMP-0002": [
+    { "supplier": "First Choice Group", "supplierPartNo": "FC-TMP-0002", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Price and stock on application" }
   ],
-  "OR-NBR-20X3": [
-    { "supplier": "RS Components", "supplierPartNo": "RS-182-3355", "inStock": true, "qty": 5000, "leadTimeDays": 1, "price": 0.09, "currency": "GBP" },
-    { "supplier": "Simply Bearings", "supplierPartNo": "SB-OR-20X3-NBR", "inStock": true, "qty": 1200, "leadTimeDays": 2, "price": 0.11, "currency": "GBP" }
-  ],
-  "CG-M20-NY": [
-    { "supplier": "Farnell", "supplierPartNo": "FN-234-1187", "inStock": true, "qty": 640, "leadTimeDays": 1, "price": 0.62, "currency": "GBP" },
-    { "supplier": "RS Components", "supplierPartNo": "RS-798-4421", "inStock": true, "qty": 310, "leadTimeDays": 2, "price": 0.58, "currency": "GBP" }
-  ],
-  "TB-4P-DIN": [
-    { "supplier": "Farnell", "supplierPartNo": "FN-901-2276", "inStock": true, "qty": 220, "leadTimeDays": 1, "price": 1.34, "currency": "GBP" },
-    { "supplier": "RS Components", "supplierPartNo": "RS-332-9910", "inStock": false, "qty": 0, "leadTimeDays": 9, "price": 1.29, "currency": "GBP" }
-  ],
-  "RLY-24VDC-SPDT": [
-    { "supplier": "Mouser", "supplierPartNo": "MS-RLY24-SPDT", "inStock": true, "qty": 3100, "leadTimeDays": 1, "price": 2.75, "currency": "GBP" },
-    { "supplier": "Farnell", "supplierPartNo": "FN-556-0043", "inStock": true, "qty": 480, "leadTimeDays": 2, "price": 2.95, "currency": "GBP" }
-  ],
-  "FU-10A-BLADE": [
-    { "supplier": "Halfords Trade", "supplierPartNo": "HT-FUSE-10A", "inStock": true, "qty": 8800, "leadTimeDays": 1, "price": 0.12, "currency": "GBP" },
-    { "supplier": "RS Components", "supplierPartNo": "RS-045-1120", "inStock": true, "qty": 2200, "leadTimeDays": 1, "price": 0.10, "currency": "GBP" }
-  ],
-  "BV-1IN-BRASS": [
-    { "supplier": "Screwfix Trade", "supplierPartNo": "SF-BV1-BRASS", "inStock": true, "qty": 75, "leadTimeDays": 1, "price": 8.99, "currency": "GBP" },
-    { "supplier": "RS Components", "supplierPartNo": "RS-661-7743", "inStock": false, "qty": 0, "leadTimeDays": 11, "price": 9.40, "currency": "GBP" }
-  ],
-  "GK-FLG-2IN-SW": [
-    { "supplier": "RS Components", "supplierPartNo": "RS-903-2261", "inStock": true, "qty": 40, "leadTimeDays": 3, "price": 6.20, "currency": "GBP" },
-    { "supplier": "Flexitallic Direct", "supplierPartNo": "FX-2IN-SW-GK", "inStock": true, "qty": 15, "leadTimeDays": 5, "price": 5.85, "currency": "GBP" }
-  ],
-  "CC-8P-IP67": [
-    { "supplier": "Farnell", "supplierPartNo": "FN-772-3390", "inStock": true, "qty": 190, "leadTimeDays": 2, "price": 11.40, "currency": "GBP" },
-    { "supplier": "Mouser", "supplierPartNo": "MS-CC8-IP67", "inStock": false, "qty": 0, "leadTimeDays": 18, "price": 12.10, "currency": "GBP" }
-  ],
-  "HC-25-40-WD": [
-    { "supplier": "Screwfix Trade", "supplierPartNo": "SF-HC-2540", "inStock": true, "qty": 1400, "leadTimeDays": 1, "price": 0.45, "currency": "GBP" },
-    { "supplier": "RS Components", "supplierPartNo": "RS-221-6650", "inStock": true, "qty": 610, "leadTimeDays": 1, "price": 0.49, "currency": "GBP" }
-  ],
-  "BU-BR-25MM": [
-    { "supplier": "Simply Bearings", "supplierPartNo": "SB-BU-25MM-BR", "inStock": true, "qty": 90, "leadTimeDays": 3, "price": 3.60, "currency": "GBP" },
-    { "supplier": "RS Components", "supplierPartNo": "RS-114-8802", "inStock": false, "qty": 0, "leadTimeDays": 12, "price": 3.95, "currency": "GBP" }
-  ]
+  "TMP-0003": []
 }
