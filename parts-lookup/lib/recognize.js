@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const catalog = require('../data/parts-catalog.json');
+const { getAllParts } = require('./db');
 
 const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
 const DEFAULT_MODEL = 'claude-haiku-4-5-20251001';
@@ -9,9 +9,13 @@ const IDENTIFY_PROMPT = `You are looking at a photo of a single engineering/indu
 Identify the part as specifically as you can (type, likely size, material if visible). Respond with ONLY a JSON object, no markdown fences, no extra text, in this exact shape:
 {"description": "short specific description", "category": "one or two word category, e.g. fastener, bearing, seal, valve, connector, relay, fuse, gasket, clamp, bushing", "keywords": ["keyword1", "keyword2", "keyword3"], "confidence": "high|medium|low"}`;
 
-function demoIdentify(imageBuffer) {
-  const hash = crypto.createHash('sha256').update(imageBuffer).digest();
-  const index = hash[0] % catalog.length;
+function hashImage(imageBase64) {
+  return crypto.createHash('sha256').update(imageBase64, 'base64').digest('hex');
+}
+
+function demoIdentify(imageHash) {
+  const catalog = getAllParts();
+  const index = parseInt(imageHash.slice(0, 8), 16) % catalog.length;
   const entry = catalog[index];
   return {
     mode: 'demo',
@@ -64,13 +68,13 @@ async function liveIdentify(imageBase64, mimeType, apiKey, model) {
   };
 }
 
-async function identifyPart({ imageBase64, mimeType }) {
+async function identifyPart({ imageBase64, mimeType, imageHash }) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return demoIdentify(Buffer.from(imageBase64, 'base64'));
+    return demoIdentify(imageHash);
   }
   const model = process.env.ANTHROPIC_MODEL || DEFAULT_MODEL;
   return liveIdentify(imageBase64, mimeType, apiKey, model);
 }
 
-module.exports = { identifyPart };
+module.exports = { identifyPart, hashImage };

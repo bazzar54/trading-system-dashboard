@@ -1,3 +1,7 @@
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('/service-worker.js'));
+}
+
 const photoInput = document.getElementById('photo-input');
 const preview = document.getElementById('preview');
 const identifyBtn = document.getElementById('identify-btn');
@@ -26,7 +30,7 @@ function fileToBase64(file) {
 }
 
 function renderResults(data) {
-  const { identification, result } = data;
+  const { identification, result, cacheHit } = data;
 
   if (!result.matched) {
     resultsEl.innerHTML = `<h2>No catalog match</h2><p>Identified as "${identification.description}" but no matching part was found in the demo catalog.</p>`;
@@ -35,6 +39,7 @@ function renderResults(data) {
   }
 
   const modeBadge = identification.mode === 'demo' ? 'demo recognition' : 'live recognition';
+  const cacheBadge = cacheHit ? '<span class="badge">cached</span>' : '';
   const rows = result.suppliers
     .map(
       (s) => `
@@ -49,7 +54,7 @@ function renderResults(data) {
     .join('');
 
   resultsEl.innerHTML = `
-    <h2>${result.catalogEntry.name} <span class="badge">${modeBadge}</span></h2>
+    <h2>${result.catalogEntry.name} <span class="badge">${modeBadge}</span>${cacheBadge}</h2>
     <p>Identified as: <strong>${identification.description}</strong> (${identification.category}, confidence: ${identification.confidence})</p>
     <p>Manufacturer part number (MPN): <strong>${result.mpn}</strong></p>
     <div class="overflow-x">
