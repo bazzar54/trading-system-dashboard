@@ -1,18 +1,50 @@
 [
   {
-    "id": "mono-aztec-fg059",
+    "id": "mono-fg021-metro-moulder",
     "manufacturer": "MONO Equipment",
-    "model": "FG059",
-    "name": "MONO Aztec Doughnut Fryer",
-    "type": "doughnut fryer",
-    "sourceDoc": "https://www.monoequip.com/userfiles/Aztec%20Doughnut%20Fryer%20Spare%20Parts%20Document%20March%202023.pdf"
+    "model": "FG021",
+    "name": "MONO Metro Moulder",
+    "type": "dough moulder",
+    "sourceDoc": "MONO Equipment Metro Moulder Spares Manual.pdf"
   },
   {
-    "id": "mono-bx-eco-touch",
+    "id": "mono-fg150-bx-oven-10tray",
     "manufacturer": "MONO Equipment",
-    "model": "BX Eco-Touch",
-    "name": "MONO BX Eco-Touch Convection Oven",
+    "model": "FG150",
+    "name": "MONO Eco-Touch BX Convection Oven (10 Tray)",
     "type": "convection oven",
-    "sourceDoc": "https://www.monoequip.com/userfiles/Spare%20Parts%20Manuals/MONO%20Eco-Touch%20BX%20Convection%20Oven%20Spares%20Manual.pdf"
+    "sourceDoc": "MONO Eco-Touch BX Convection Oven Spares Manual.pdf"
+  },
+  {
+    "id": "mono-fg159-bx-oven-18x30",
+    "manufacturer": "MONO Equipment",
+    "model": "FG159",
+    "name": "MONO Eco-Touch BX Oven (4/5 Tray 18\"x30\")",
+    "type": "convection oven",
+    "sourceDoc": "MONO Eco-Touch BX Convection Oven Spares Manual.pdf"
+  },
+  {
+    "id": "mono-fg158-bx-oven-60x40",
+    "manufacturer": "MONO Equipment",
+    "model": "FG158",
+    "name": "MONO Eco-Touch BX Oven (4/5 Tray 60cm x 40cm)",
+    "type": "convection oven",
+    "sourceDoc": "MONO Eco-Touch BX Convection Oven Spares Manual.pdf"
+  },
+  {
+    "id": "mono-fg153-bx-oven-40x60",
+    "manufacturer": "MONO Equipment",
+    "model": "FG153",
+    "name": "MONO Eco-Touch BX Oven (4/5 Tray 40cm x 60cm)",
+    "type": "convection oven",
+    "sourceDoc": "MONO Eco-Touch BX Convection Oven Spares Manual.pdf"
+  },
+  {
+    "id": "belshaw-donut-robot-mk2",
+    "manufacturer": "Belshaw Adamatic Bakery Group",
+    "model": "Mark II / Mark V",
+    "name": "Belshaw Donut Robot Mark II/V",
+    "type": "doughnut fryer",
+    "sourceDoc": "06296.pdf"
   }
 ]

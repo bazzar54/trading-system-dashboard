@@ -1,9 +1,107 @@
 {
-  "TMP-0001": [
-    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "TMP-0001", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Price and stock on application" }
+  "021-03D01000": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "021-03D01000", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Sprocket for FG021 Metro Moulder; price and availability on application" }
   ],
-  "TMP-0002": [
-    { "supplier": "First Choice Group", "supplierPartNo": "FC-TMP-0002", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Price and stock on application" }
+  "021-03D00700": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "021-03D00700", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Sprocket for FG021 Metro Moulder; price and availability on application" }
   ],
-  "TMP-0003": []
+  "021-03D00600": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "021-03D00600", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Sprocket for FG021 Metro Moulder; price and availability on application" }
+  ],
+  "A900-08-010": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "A900-08-010", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Drive chain 53\" + 1 link; used across MONO machines" }
+  ],
+  "A900-09-107": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "A900-09-107", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Pulley for drive belt systems" }
+  ],
+  "A900-21-056": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "A900-21-056", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "V-belt for main drive" }
+  ],
+  "B809-74-089": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B809-74-089", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Main motor for FG021 Metro Moulder" }
+  ],
+  "A900-06-026": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "A900-06-026", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Deep groove ball bearing; common across MONO equipment" }
+  ],
+  "B801-11-008": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B801-11-008", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Safety switch for equipment covers" }
+  ],
+  "B850-03-001": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B850-03-001", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Motor contactor" }
+  ],
+  "B850-01-002": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B850-01-002", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Thermal overload relay for motor protection" }
+  ],
+  "021-04D00700": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "021-04D00700", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Sheeting roller for FG021 dough moulder" }
+  ],
+  "B847-04-068": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B847-04-068", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Heating element 8kW 240V for BX ovens" }
+  ],
+  "B847-04-067": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B847-04-067", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Heating element 7kW 240V for BX ovens" }
+  ],
+  "B720-74-001": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B720-74-001", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Fan motor unit for all BX oven models" }
+  ],
+  "B888-30-014": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B888-30-014", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Overheat protection thermostat" }
+  ],
+  "B801-08-020": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B801-08-020", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Heating element contactor" }
+  ],
+  "B801-08-031": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B801-08-031", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Fan motor contactor (forward/reverse)" }
+  ],
+  "B723-37-004": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B723-37-004", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Interior light relay" }
+  ],
+  "B749-83-003": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B749-83-003", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Damper solenoid L/H for baking chamber ventilation" }
+  ],
+  "B749-83-004": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B749-83-004", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Damper solenoid R/H for baking chamber ventilation" }
+  ],
+  "B869-75-018": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B869-75-018", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Rear cooling fan unit with motor" }
+  ],
+  "B842-07-037": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B842-07-037", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Door interlock safety switch" }
+  ],
+  "150-03-02500": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "150-03-02500", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Door seal/gasket for FG150 oven" }
+  ],
+  "150-03-09900": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "150-03-09900", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Outer tempered glass panel for oven door" }
+  ],
+  "158-17-00400": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "158-17-00400", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Water inlet assembly with hoses for steam system" }
+  ],
+  "B801-93-005": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B801-93-005", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "24V DC control circuit power supply" }
+  ],
+  "B872-22-062": [
+    { "supplier": "MONO Equipment (spares desk)", "supplierPartNo": "B872-22-062", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "GBP", "note": "Control circuit miniature circuit breaker (MCB)" }
+  ],
+  "BHS-HOPPER-MKV": [
+    { "supplier": "Belshaw Adamatic Bakery Group", "supplierPartNo": "BHS-HOPPER-MKV", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "USD", "note": "Hopper assembly for Donut Robot Mark II/V" }
+  ],
+  "BHS-PLUNGER-MKV": [
+    { "supplier": "Belshaw Adamatic Bakery Group", "supplierPartNo": "BHS-PLUNGER-MKV", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "USD", "note": "Plunger/piston assembly for donut depositor" }
+  ],
+  "BHS-CYLINDER-MKV": [
+    { "supplier": "Belshaw Adamatic Bakery Group", "supplierPartNo": "BHS-CYLINDER-MKV", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "USD", "note": "Cylinder/barrel assembly" }
+  ],
+  "BHS-CONVEYOR-MKV": [
+    { "supplier": "Belshaw Adamatic Bakery Group", "supplierPartNo": "BHS-CONVEYOR-MKV", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "USD", "note": "Frying conveyor belt/mesh" }
+  ],
+  "BHS-ELEMENT-MKV": [
+    { "supplier": "Belshaw Adamatic Bakery Group", "supplierPartNo": "BHS-ELEMENT-MKV", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "USD", "note": "Electric immersion heating element" }
+  ],
+  "BHS-THERMO-MKV": [
+    { "supplier": "Belshaw Adamatic Bakery Group", "supplierPartNo": "BHS-THERMO-MKV", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "USD", "note": "Oil temperature control thermostat" }
+  ],
+  "BHS-PANEL-MKV": [
+    { "supplier": "Belshaw Adamatic Bakery Group", "supplierPartNo": "BHS-PANEL-MKV", "inStock": null, "qty": null, "leadTimeDays": null, "price": null, "currency": "USD", "note": "Operator control panel with display and buttons" }
+  ]
 }
